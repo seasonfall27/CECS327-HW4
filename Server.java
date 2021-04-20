@@ -22,7 +22,7 @@ public class Server{
                 // Change the letters of the message to capital letters and send it back to the client by using the same socket.
                 System.out.println("Server: " + message.toUpperCase());
                 // Print back to client
-                output.println(message);
+                output.println(message.toUpperCase());
             }
         }catch(Exception e){
             e.printStackTrace();

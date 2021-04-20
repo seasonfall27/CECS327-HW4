@@ -73,8 +73,8 @@ public class Client{
             // 2. Sends the message to the server
             String msg, response = "";
             Socket socket = new Socket(address, 8000); // Creates socket on port number 8000
-            //PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
-            //BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             System.out.println("Connected to server!");
             Scanner in = new Scanner(System.in);
@@ -86,13 +86,14 @@ public class Client{
                     break;
                 }
                 // 3. Display the server replay by using the same socket.
-                //pw.println(msg);
-                //response = br.readLine();
-                System.out.println("Response: " + response);
+                pw.println(msg);
+                response = br.readLine();
+                System.out.println("Client: " + response);
             }
-            //pw.flush();
+            pw.flush();
             socket.close();
-            //in.close();
+            br.close();
+            in.close();
         }
         catch(Exception e) {
             
