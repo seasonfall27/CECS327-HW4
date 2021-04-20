@@ -15,10 +15,12 @@ public class Server{
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             PrintWriter output = new PrintWriter(clientSocket.getOutputStream(), true); 
 
+            // Receives the messagefrom the client.
             // Loops until the message is null
             String message;
             while((message = bufferedReader.readLine()) != null){
-                System.out.println("Server: " + message);
+                // Change the letters of the message to capital letters and send it back to the client by using the same socket.
+                System.out.println("Server: " + message.toUpperCase());
                 // Print back to client
                 output.println(message);
             }

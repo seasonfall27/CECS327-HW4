@@ -3,13 +3,16 @@ import java.util.Scanner;
 import java.io.*;
 
 public class Client{
+
+    static int portNumber;
+
     /*
     * Prompts user to enter the ip address to be validated and returned as a string.
     * Returns the ip address as a String.
     */
     static String setIPAddress() {
         // initialize scanner to read user input and get the ip address
-        Scanner in = new Scanner(System.in);
+        Scanner ip = new Scanner(System.in);
         // initialize string for the ip address as empty string
         String ip_address = "";
         // initialize boolean var to enter and exit while loop while validating input
@@ -17,12 +20,12 @@ public class Client{
 
         // enter while loop to prompt user to enter ip address and validate it
         while (!is_valid) {
-            System.out.println("Enter an IP address: ");
-            ip_address = in.nextLine();
+            System.out.println("Enter a valid IP address: ");
+            ip_address = ip.nextLine();
             // checks if the input is valid using validator, exits loop if it is
             is_valid = ip_address.matches("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
         }
-        return ip;
+        return ip_address;
     }
 
     /*
@@ -35,20 +38,23 @@ public class Client{
         // initialize var for port number
         int portNumber = -1;
 
+        System.out.println("Enter a valid port number:"); // Prompt user to enter the port number
+
         while (true) {
             try {
+                portNumber = in.nextInt();
                 // port number validation for user input
                 while (portNumber > 65535 || portNumber < 1) {
-                    // Prompt user to enter the port number
-                    System.out.println("Enter the port number: ");
+                    System.out.println("Enter valid port number: ");
                     // Assigns the variable portNumber with the value of the user input
                     portNumber = in.nextInt();
                 }
                 break;
             }  
+            // 4. Displays an error message if the IP address or port number were entered incorrectly.
             // handles and throws numberformatexception
             catch (NumberFormatException e) {
-                System.out.println("Enter the port number: ")
+                System.out.println("Enter valid port number: ");
                 continue;
             }
         }
@@ -59,26 +65,34 @@ public class Client{
         System.out.println("Beginning echo client...");
 
         try {
-            Scanner in = new Scanner(System.in);
+            // 1. Prompts the user to input the IP address and port number of the server.
+            InetAddress address = InetAddress.getByName(setIPAddress()); // Converts string to InetAddress
             int portNumber = setPortNumber();
-            InetAddress address = InetAddress.getByName(setIPAddress());
-            boolean connected = true;
+            //boolean connected = true;
 
+            // 2. Sends the message to the server
             String msg, response = "";
-            Socket socket = new Socket(address, 8000);
-            PrinterWriter pw = new PrinterWriter(socket.getOutputStream(), true);
-            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            Socket socket = new Socket(address, 8000); // Creates socket on port number 8000
+            //PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+            //BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            while (connected){
-                System.out.println("Enter message to send to server (-1 to quit): ")
+            System.out.println("Connected to server!");
+            Scanner in = new Scanner(System.in);
+
+            while (true){
+                System.out.println("Enter message to send to server (-1 to quit): ");
                 msg = in.nextLine();
                 if(msg.equals("-1")) {
                     break;
                 }
-                pw.println(msg);
-                response = br.readLine();
+                // 3. Display the server replay by using the same socket.
+                //pw.println(msg);
+                //response = br.readLine();
                 System.out.println("Response: " + response);
             }
+            //pw.flush();
+            socket.close();
+            //in.close();
         }
         catch(Exception e) {
             
