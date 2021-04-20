@@ -3,6 +3,14 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.*;
 
+/* CECS 327 - Assignment 4
+   Socket Programming
+   Spring 2021
+   Autumn Nguyen and Kenneth Tran
+
+   Requirements: You are required to write an Echo Client and an Echo Server program.
+   The echo client communicates with the echo server using UDP.
+*/
 public class Client{
 
     static int portNumber;
@@ -75,39 +83,45 @@ public class Client{
     public static void main(String args[]){
         System.out.println("Beginning echo client...");
 
-        try {
-            // 1. Prompts the user to input the IP address and port number of the server.
-            InetAddress address = InetAddress.getByName(setIPAddress()); // Converts string to InetAddress
-            int portNumber = setPortNumber();
-            //boolean connected = true;
+        while(true) {
 
-            // 2. Sends the message to the server
-            String msg, response = "";
-            Socket socket = new Socket(address, 8000); // Creates socket on port number 8000
-            PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            try {
+                // 1. Prompts the user to input the IP address and port number of the server.
+                InetAddress address = InetAddress.getByName(setIPAddress()); // Converts string to InetAddress
+                int portNumber = setPortNumber();
 
-            System.out.println("Connected to server!");
-            Scanner in = new Scanner(System.in);
+                String msg, response = "";
+                Socket socket = new Socket(address, portNumber); // Creates socket with set address on portNumber
+                PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            while (true){
-                System.out.println("Enter message to send to server (-1 to quit): ");
-                msg = in.nextLine();
-                if(msg.equals("-1")) {
-                    break;
+                System.out.println("Connected to server!");
+                Scanner in = new Scanner(System.in);
+
+                // Prompts user to 2. Sends the message to the server
+                while (true){
+                    System.out.println("Enter message to send to server (-1 to quit): ");
+                    msg = in.nextLine();
+                    if(msg.equals("-1")) {
+                        break;
+                    }
+                    // 3. Display the server replay by using the same socket.
+                    pw.println(msg);
+                    response = br.readLine();
+                    System.out.println("Response: " + response);
                 }
-                // 3. Display the server replay by using the same socket.
-                pw.println(msg);
-                response = br.readLine();
-                System.out.println("Response: " + response);
+
+                // Close variables so there are no resource leak warnings
+                pw.flush();
+                socket.close();
+                br.close();
+                in.close();
+                break;
             }
-            pw.flush();
-            socket.close();
-            br.close();
-            in.close();
-        }
-        catch(Exception e) {
-            
+            catch(IOException e) {
+                System.out.println("An I/O error has occurred when creating the socket.");
+                System.out.println("Restarting the program...");
+            }
         }
     }
 }
