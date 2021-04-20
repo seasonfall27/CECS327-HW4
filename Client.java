@@ -57,5 +57,31 @@ public class Client{
 
     public static void main(String args[]){
         System.out.println("Beginning echo client...");
+
+        try {
+            Scanner in = new Scanner(System.in);
+            int portNumber = setPortNumber();
+            InetAddress address = InetAddress.getByName(setIPAddress());
+            boolean connected = true;
+
+            String msg, response = "";
+            Socket socket = new Socket(address, 8000);
+            PrinterWriter pw = new PrinterWriter(socket.getOutputStream(), true);
+            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            while (connected){
+                System.out.println("Enter message to send to server (-1 to quit): ")
+                msg = in.nextLine();
+                if(msg.equals("-1")) {
+                    break;
+                }
+                pw.println(msg);
+                response = br.readLine();
+                System.out.println("Response: " + response);
+            }
+        }
+        catch(Exception e) {
+            
+        }
     }
 }
