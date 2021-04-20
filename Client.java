@@ -1,4 +1,5 @@
 import java.net.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.*;
 
@@ -22,10 +23,18 @@ public class Client{
         while (!is_valid) {
             System.out.println("Enter a valid IP address: ");
             ip_address = ip.nextLine();
+
             // checks if the input is valid using validator, exits loop if it is
             is_valid = ip_address.matches("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
+            
+            // 4. Displays an error message if the IP address or port number were entered incorrectly.
+            // If not valid IP address, print error and continue in while loop
+            if (!is_valid){
+                System.out.println("IP Address was entered incorrectly.");
+            }
         }
-        return ip_address;
+
+        return ip_address; // Return string IP Address
     }
 
     /*
@@ -35,16 +44,17 @@ public class Client{
     static int setPortNumber() {
         // Initialize scanner to read user input and get the port number
         Scanner in = new Scanner(System.in);
-        // initialize var for port number
+        // Initialize var for port number
         int portNumber = -1;
 
-        System.out.println("Enter a valid port number:"); // Prompt user to enter the port number
+        System.out.println("Enter valid port number:"); // Prompt user to enter the port number
 
         while (true) {
             try {
                 portNumber = in.nextInt();
                 // port number validation for user input
                 while (portNumber > 65535 || portNumber < 1) {
+                    System.out.println("Port number was entered incorrectly.");
                     System.out.println("Enter valid port number: ");
                     // Assigns the variable portNumber with the value of the user input
                     portNumber = in.nextInt();
@@ -52,10 +62,11 @@ public class Client{
                 break;
             }  
             // 4. Displays an error message if the IP address or port number were entered incorrectly.
-            // handles and throws numberformatexception
-            catch (NumberFormatException e) {
+            // Handles and throws InputMismatchException
+            catch (InputMismatchException e) {
+                System.out.println("Port number was entered incorrectly.");
                 System.out.println("Enter valid port number: ");
-                continue;
+                in.nextLine();
             }
         }
         return portNumber;
