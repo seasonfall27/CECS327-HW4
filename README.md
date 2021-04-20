@@ -38,7 +38,7 @@ Requirements: You are required to write an Echo Client and an Echo Server  progr
 
      - To locate your IPv4 address, use the following command: `ipconfig/all`
 
-5. Enter a valid port number (must be an integer between 1-65535).
+5. Enter the same valid port number (must be an integer between 1-65535) as you entered in the Server. If different, will throw an I/O Exception and restart the program.
 
 #### **Echoing Messages**
 1. From the client terminal, the user is able to enter messages that will be sent to the Server and changed to all uppercase letters.
