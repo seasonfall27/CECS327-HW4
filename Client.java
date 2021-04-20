@@ -99,7 +99,7 @@ public class Client{
                 // 3. Display the server replay by using the same socket.
                 pw.println(msg);
                 response = br.readLine();
-                System.out.println("Client: " + response);
+                System.out.println("Response: " + response);
             }
             pw.flush();
             socket.close();
