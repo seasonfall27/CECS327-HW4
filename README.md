@@ -6,7 +6,7 @@ Requirements: You are required to write an Echo Client and an Echo Server  progr
 ## **“Instructions for Users”**
 
 #### **Running the Server**
-1. Open a command prompt terminal and change directory to where the project files are located using the cd command
+1. Open a command prompt terminal and change directory to where the project files are located using the cd command.
 
 2. Compile the Server class using the following command:
 
@@ -22,7 +22,7 @@ Requirements: You are required to write an Echo Client and an Echo Server  progr
 
 
 #### **Running the Client**
-1. In the different command prompt terminal, change directory to where the project files are located using the cd command. See example above.
+1. In the different command prompt terminal, change directory to where the project files are located using the cd command.
 
 2. Compile the Client class using the following command:
 
