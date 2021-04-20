@@ -1,5 +1,8 @@
 import java.net.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 import java.io.*;
+
 
 /* CECS 327 - Assignment 4
    Socket Programming
@@ -43,14 +46,16 @@ public class Server{
                 in.nextLine();
             }
         }
+        in.close();
         return portNumber;
     }
 
     public static void main(String args[]){
-        System.out.println("Beginning echo server...");
 
-        Scanner scan = new Scanner(System.in);
+        // Prompts user to enter port number
         int portNumber = setPortNumber();
+
+        System.out.println("Beginning echo server...");
 
         // Instantiate Server socket instance
         // Used by server to listen to client request
@@ -70,8 +75,10 @@ public class Server{
                 // Print back to client
                 output.println(message.toUpperCase());
             }
-        }catch(Exception e){
-            e.printStackTrace();
+        }
+        catch(IOException e) {
+            System.out.println("An I/O error has occurred when creating the socket.");
+            System.out.println("Restarting the program...");
         }
     }
 }
