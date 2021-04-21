@@ -76,6 +76,7 @@ public class Server{
                 output.println(message.toUpperCase());
             }
         }
+        // Catches and handles IO Exception when error has occured with the socket connection
         catch(IOException e) {
             System.out.println("An I/O error has occurred when creating the socket.");
             System.out.println("Restarting the program...");
